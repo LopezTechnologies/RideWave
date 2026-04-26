@@ -1,78 +1,53 @@
-import type { Destination, VehicleType, BookingMode } from '@/types'
+import type { Destination, VehicleType } from '@/types'
 
-// ─── Private prices (whole vehicle, one-way) ──────────────────────────────────
-
-export const PRIVATE_PRICES: Record<VehicleType, Record<Destination, number>> = {
-  suv: {
-    'puerto-la-libertad': 45,
-    'el-tunco': 50,
-    'el-sunzal': 50,
-    'el-zonte': 55,
-  },
-  pickup: {
-    'puerto-la-libertad': 50,
-    'el-tunco': 55,
-    'el-sunzal': 55,
-    'el-zonte': 60,
+const PRICES: Record<'shuttle', Record<VehicleType, Record<Destination, number>>> = {
+  shuttle: {
+    sedan: {
+      'puerto-la-libertad': 35,
+      'el-tunco': 40,
+      'el-sunzal': 40,
+      'el-zonte': 45,
+    },
+    suv: {
+      'puerto-la-libertad': 45,
+      'el-tunco': 50,
+      'el-sunzal': 50,
+      'el-zonte': 55,
+    },
   },
 }
 
-// ─── Shared prices (per person, one-way) ─────────────────────────────────────
-
-export const SHARED_PRICES: Record<Destination, number> = {
-  'puerto-la-libertad': 15,
-  'el-tunco': 18,
-  'el-sunzal': 18,
-  'el-zonte': 20,
-}
-
-// ─── Round trip extras ────────────────────────────────────────────────────────
-
-export const PRIVATE_ROUND_TRIP_EXTRA: Record<VehicleType, number> = {
+const ROUND_TRIP_EXTRA: Record<VehicleType, number> = {
+  sedan: 25,
   suv: 30,
-  pickup: 35,
 }
 
-export const SHARED_ROUND_TRIP_EXTRA_PER_PERSON = 10
-
-// ─── Passenger limits ─────────────────────────────────────────────────────────
-
-export const MAX_PASSENGERS: Record<VehicleType, number> = {
-  suv: 6,
-  pickup: 4,
-}
-
-export const MAX_SOLO_PASSENGERS = 2
-export const MIN_GROUP_PASSENGERS = 3
-
-// ─── Main calculation ─────────────────────────────────────────────────────────
+const SURFBOARD_EXTRA = 5 // solo para sedan
 
 export function calculateShuttlePrice({
   destination,
-  bookingMode,
   vehicleType,
   isRoundTrip,
-  passengers,
+  hasSurfboard,
 }: {
   destination: Destination
-  bookingMode: BookingMode
-  vehicleType?: VehicleType | null
+  vehicleType: VehicleType
   isRoundTrip: boolean
-  passengers: number
+  hasSurfboard: boolean
 }): number {
-  if (bookingMode === 'group' && vehicleType) {
-    let price = PRIVATE_PRICES[vehicleType][destination]
-    if (isRoundTrip) price += PRIVATE_ROUND_TRIP_EXTRA[vehicleType]
-    return price
+  let price = PRICES.shuttle[vehicleType][destination]
+
+  if (isRoundTrip) {
+    price += ROUND_TRIP_EXTRA[vehicleType]
   }
 
-  // solo (per person, max 2)
-  let pricePerPerson = SHARED_PRICES[destination]
-  if (isRoundTrip) pricePerPerson += SHARED_ROUND_TRIP_EXTRA_PER_PERSON
-  return pricePerPerson * passengers
-}
+  // Surfboard extra solo aplica en sedan
+  if (hasSurfboard && vehicleType === 'sedan') {
+    price += SURFBOARD_EXTRA
+  }
 
-// ─── Destination labels ───────────────────────────────────────────────────────
+  return price
+}
 
 export const DESTINATIONS: Record<Destination, string> = {
   'puerto-la-libertad': 'Puerto de La Libertad',

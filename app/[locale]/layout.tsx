@@ -26,7 +26,7 @@ export async function generateMetadata({
     title: t('homeTitle'),
     description: t('homeDesc'),
     keywords:
-      'shuttle aeropuerto El Salvador, traslado La Libertad, Punta Roca, El Tunco, El Sunzal, El Zonte',
+      'shuttle aeropuerto El Salvador, traslado La Libertad, tours surf El Salvador, Punta Roca, El Tunco, El Sunzal',
     openGraph: {
       title: t('homeOgTitle'),
       description: t('homeOgDesc'),

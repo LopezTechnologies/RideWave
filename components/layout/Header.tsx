@@ -50,6 +50,7 @@ export default function Header() {
   const navLinks = [
     { label: t('home'),    href: '/' },
     { label: t('shuttle'), href: '/shuttle' },
+    { label: t('tours'),   href: '/tours' },
     { label: t('contact'), href: '#contacto' },
   ] as const
 
@@ -61,7 +62,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-white font-bold text-lg">
             <Waves className="w-6 h-6 text-ocean-400" />
-            <span>Shuttle<span className="text-ocean-400">Wave</span></span>
+            <span>La Libertad <span className="text-ocean-400">Shuttle</span></span>
           </Link>
 
           {/* Desktop nav */}

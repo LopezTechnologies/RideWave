@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
-import { setRequestLocale, getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import ShuttleForm from '@/components/shuttle/ShuttleForm'
-
 
 export async function generateMetadata({
   params: { locale },
@@ -15,10 +14,7 @@ export async function generateMetadata({
   }
 }
 
-export default async function ShuttlePage({ params: { locale } }: { params: { locale: string } }) {
+export default function ShuttlePage({ params: { locale } }: { params: { locale: string } }) {
   setRequestLocale(locale)
-
-  return (
-    <ShuttleForm />
-  )
+  return <ShuttleForm />
 }

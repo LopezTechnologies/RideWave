@@ -1,14 +1,6 @@
 import { Resend } from 'resend'
 
-// Lazy singleton — avoids throwing during Next.js build when env vars are not set
-let _resend: Resend | undefined
-
-export const resend = new Proxy({} as Resend, {
-  get(_, prop: string | symbol) {
-    _resend ??= new Resend(process.env.RESEND_API_KEY!)
-    return Reflect.get(_resend, prop, _resend)
-  },
-})
+export const resend = new Resend(process.env.RESEND_API_KEY!)
 
 export async function sendBookingConfirmation({
   to,
@@ -31,8 +23,8 @@ export async function sendBookingConfirmation({
 }) {
   return resend.emails.send({
     from: process.env.EMAIL_FROM!,
-    to: process.env.NODE_ENV === 'production' ? to : process.env.RESEND_TEST_EMAIL!,
-    subject: '¡Tu reserva está confirmada! — ShuttleWave',
+    to,
+    subject: '¡Tu reserva está confirmada! — La Libertad Shuttle',
     html: `
       <h1>¡Hola ${customerName}!</h1>
       <p>Tu reserva de shuttle ha sido confirmada.</p>
