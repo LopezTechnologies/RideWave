@@ -1,6 +1,7 @@
 export type ServiceType = 'shuttle' | 'tour'
 export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
-export type VehicleType = 'sedan' | 'suv'
+export type VehicleType = 'suv' | 'pickup'
+export type BookingMode = 'solo' | 'group'
 
 export interface Booking {
   id: string
@@ -13,13 +14,14 @@ export interface Booking {
   travel_date: string
   pickup_time: string
   passengers: number
-  has_surfboard: boolean
-  vehicle_type: VehicleType
+  booking_mode: BookingMode
+  vehicle_type: VehicleType | null
+  is_round_trip?: boolean
   origin: string
   destination: string
   price_usd: number
   deposit_paid: number
-  stripe_session_id?: string
+  paypal_order_id?: string
   notes?: string
   created_at: string
 }

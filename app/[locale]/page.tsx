@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import Image from 'next/image'
 import {
   Car,
   Compass,
@@ -21,21 +22,14 @@ function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ocean-950">
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse at 60% 40%, #075985 0%, #0c4a6e 40%, #082f49 100%)',
-        }}
+      <Image
+        src="/hero-image.jpg"
+        alt="La Libertad El Salvador"
+        fill
+        priority
+        className="object-cover object-center"
       />
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage:
-            'repeating-linear-gradient(45deg, #38bdf8 0, #38bdf8 1px, transparent 0, transparent 50%)',
-          backgroundSize: '30px 30px',
-        }}
-      />
+      <div className="absolute inset-0 bg-ocean-950/65" />
       <div className="absolute bottom-0 left-0 right-0">
         <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" className="w-full text-white fill-current">
           <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" />
@@ -43,8 +37,8 @@ function HeroSection() {
       </div>
 
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto pt-16">
-        <div className="inline-flex items-center gap-2 bg-ocean-800/60 border border-ocean-600 rounded-full px-4 py-1.5 text-ocean-200 text-sm font-medium mb-6">
-          <MapPin className="w-4 h-4 text-ocean-400" />
+        <div className="inline-flex items-center gap-2 bg-black/30 border border-white/20 rounded-full px-4 py-1.5 text-white/90 text-sm font-medium mb-6">
+          <MapPin className="w-4 h-4 text-white/70" />
           {t('badge')}
         </div>
 
@@ -53,7 +47,7 @@ function HeroSection() {
           <span className="text-ocean-400">{t('titleHighlight')}</span>
         </h1>
 
-        <p className="text-ocean-200 text-lg sm:text-xl mb-8 text-balance">
+        <p className="text-white/85 text-lg sm:text-xl mb-8 text-balance">
           {t('subtitle')}
         </p>
 
@@ -74,14 +68,14 @@ function HeroSection() {
           </Link>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 text-ocean-300 text-sm">
+        <div className="flex flex-wrap justify-center gap-4 text-white/75 text-sm">
           {[
             { icon: ShieldCheck, key: 'badgeSecure' as const },
             { icon: Users, key: 'badgeGroups' as const },
             { icon: Clock, key: 'badgePunctual' as const },
           ].map(({ icon: Icon, key }) => (
             <div key={key} className="flex items-center gap-1.5">
-              <Icon className="w-4 h-4 text-ocean-400" />
+              <Icon className="w-4 h-4 text-white/60" />
               {t(key)}
             </div>
           ))}
@@ -220,7 +214,7 @@ function DestinationsSection() {
               <p className="text-gray-500 text-sm leading-relaxed flex-1">{t(dest.descKey)}</p>
               <div className="pt-2 border-t border-gray-100 flex gap-4 text-sm">
                 <div>
-                  <span className="text-gray-400">{t('sedan')}</span>
+                  <span className="text-gray-400">{t('pickup')}</span>
                   <p className="font-bold text-ocean-700">${dest.priceSedan} USD</p>
                 </div>
                 <div>
