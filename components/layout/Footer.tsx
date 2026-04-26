@@ -14,7 +14,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 text-white font-bold text-lg mb-3">
               <Waves className="w-5 h-5 text-ocean-400" />
-              <span>La Libertad <span className="text-ocean-400">Shuttle</span></span>
+              <span>Shuttle<span className="text-ocean-400">Wave</span></span>
             </div>
             <p className="text-sm text-ocean-300 leading-relaxed">{t('tagline')}</p>
           </div>
@@ -26,11 +26,6 @@ export default function Footer() {
               <li>
                 <Link href="/shuttle" className="hover:text-white transition-colors">
                   {t('shuttleAirport')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/tours" className="hover:text-white transition-colors">
-                  {t('surfTours')}
                 </Link>
               </li>
               <li>
