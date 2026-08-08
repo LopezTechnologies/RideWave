@@ -4,7 +4,7 @@ import { capturePayPalOrder } from '@/lib/paypal'
 import { createAdminClient } from '@/lib/supabase'
 import { sendBookingConfirmation } from '@/lib/resend'
 import { DESTINATIONS } from '@/lib/pricing'
-import { addMockBooking, getAllMockBookings } from '@/lib/mockStore'
+import { addMockBooking, getAllMockBookings, getMockBookingByOrderId } from '@/lib/mockStore'
 import type { BookingMode, Destination, VehicleType } from '@/types'
 import {
   checkShuttleConflictInSupabase,
@@ -48,6 +48,13 @@ export async function POST(request: NextRequest) {
 
     // ── Mock mode: store in memory, skip PayPal + Supabase ───────────────────
     if (process.env.MOCK_MODE === 'true') {
+      // Idempotent: a duplicate capture call for an order already stored
+      // (React StrictMode double-invokes effects in dev, retries, etc.)
+      // must not be treated as a conflicting booking against itself.
+      if (getMockBookingByOrderId(orderId)) {
+        return NextResponse.json({ success: true })
+      }
+
       const conflict = findConflictingBooking(
         candidate,
         getAllMockBookings().map((booking) => ({
