@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { getDay, parseISO } from 'date-fns'
 import type { BookingMode, Destination, VehicleType } from '@/types'
 
 const PRE_PICKUP_MINUTES = 45
@@ -16,6 +17,18 @@ const ROUND_TRIP_RETURN_MINUTES: Record<Destination, number> = {
   'el-tunco': 75,
   'el-sunzal': 75,
   'el-zonte': 90,
+}
+
+// domingo=0, sábado=6 — per date-fns getDay(). Temporary while the operator
+// runs weekends-only; change this array + redeploy to open more days.
+export const DIAS_HABILITADOS = [0, 6]
+
+export function isBookableDay(date: Date): boolean {
+  return DIAS_HABILITADOS.includes(getDay(date))
+}
+
+export function isBookableDateString(travelDate: string): boolean {
+  return isBookableDay(parseISO(travelDate))
 }
 
 export type ShuttleBookingLike = {
