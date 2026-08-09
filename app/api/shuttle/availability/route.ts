@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
     if (error && /is_round_trip/.test(error.message)) {
       const fallback = await supabaseAdmin
         .from('bookings')
-        .select('id, service_type, status, travel_date, pickup_time, destination, is_round_trip')
+        .select('id, service_type, status, travel_date, pickup_time, destination')
         .eq('service_type', 'shuttle')
         .in('status', ['pending', 'confirmed', 'completed'])
         .gte('travel_date', from)
