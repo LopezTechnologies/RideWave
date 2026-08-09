@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase'
 import { getAllMockBookings } from '@/lib/mockStore'
-import { findConflictingBooking } from '@/lib/shuttleAvailability'
+import { findConflictingBooking, type ShuttleBookingLike } from '@/lib/shuttleAvailability'
 import type { BookingMode, Destination, VehicleType } from '@/types'
 
 const DESTINATIONS: Destination[] = ['puerto-la-libertad', 'el-tunco', 'el-sunzal', 'el-zonte']
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
       .lte('travel_date', to)
       .limit(500)
 
-    let data = primary.data ?? []
+    let data: ShuttleBookingLike[] = primary.data ?? []
     let error = primary.error
 
     if (error && /is_round_trip/.test(error.message)) {
