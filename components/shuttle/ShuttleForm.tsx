@@ -29,6 +29,7 @@ import {
   PRIVATE_ROUND_TRIP_EXTRA,
 } from '@/lib/pricing'
 import type { Destination, VehicleType, BookingMode } from '@/types'
+import ShuttleDatePicker from './ShuttleDatePicker'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -50,10 +51,6 @@ type FormData = {
 type FormErrors = Partial<Record<keyof FormData, string>>
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function todayString() {
-  return new Date().toISOString().split('T')[0]
-}
 
 const HOURS = Array.from({ length: 20 }, (_, i) => {
   const h = i + 4 // 4 AM → 11 PM
@@ -631,17 +628,12 @@ export default function ShuttleForm() {
                       {tf('date')}
                     </span>
                   </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      min={todayString()}
-                      value={form.travelDate}
-                      onChange={(e) => set('travelDate', e.target.value)}
-                      className={`w-full px-4 py-3 rounded-xl border text-sm text-ocean-950 bg-white focus:outline-none focus:ring-2 focus:ring-ocean-400 cursor-pointer appearance-none ${
-                        errors.travelDate ? 'border-red-400' : 'border-gray-200'
-                      } ${!form.travelDate ? 'text-gray-400' : ''}`}
-                    />
-                  </div>
+                  <ShuttleDatePicker
+                    value={form.travelDate}
+                    onChange={(value) => set('travelDate', value)}
+                    locale={locale as 'es' | 'en'}
+                    error={!!errors.travelDate}
+                  />
                   <FieldError msg={errors.travelDate} />
                 </div>
 
