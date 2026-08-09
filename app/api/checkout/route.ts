@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { createPayPalOrder } from '@/lib/paypal'
 import { calculateShuttlePrice, DESTINATIONS } from '@/lib/pricing'
 import { createAdminClient } from '@/lib/supabase'
-import { checkShuttleConflictInSupabase } from '@/lib/shuttleAvailability'
+import { checkShuttleConflictInSupabase, isBookableDateString } from '@/lib/shuttleAvailability'
 
 const schema = z
   .object({
@@ -30,6 +30,19 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const data = schema.parse(body)
+
+    if (!isBookableDateString(data.travelDate)) {
+      return NextResponse.json(
+        {
+          error:
+            data.locale === 'es'
+              ? 'Por ahora solo operamos sábados y domingos. Elige una de esas fechas.'
+              : 'We currently operate weekends only. Please choose a Saturday or Sunday.',
+          code: 'DAY_NOT_BOOKABLE',
+        },
+        { status: 400 },
+      )
+    }
 
     const priceUsd = calculateShuttlePrice({
       destination: data.destination,

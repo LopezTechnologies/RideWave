@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase'
 import { getAllMockBookings } from '@/lib/mockStore'
-import { findConflictingBooking, type ShuttleBookingLike } from '@/lib/shuttleAvailability'
+import { findConflictingBooking, isBookableDateString, type ShuttleBookingLike } from '@/lib/shuttleAvailability'
 import type { BookingMode, Destination, VehicleType } from '@/types'
 
 const DESTINATIONS: Destination[] = ['puerto-la-libertad', 'el-tunco', 'el-sunzal', 'el-zonte']
@@ -55,6 +55,10 @@ export async function GET(request: NextRequest) {
 
     if (!date || !isDestination(destination) || !isBookingMode(bookingModeRaw)) {
       return NextResponse.json({ error: 'Invalid availability query' }, { status: 400 })
+    }
+
+    if (!isBookableDateString(date)) {
+      return NextResponse.json({ availableSlots: [] })
     }
 
     const vehicleType = isVehicleType(vehicleTypeRaw) ? vehicleTypeRaw : 'suv'
