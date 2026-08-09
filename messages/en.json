@@ -123,6 +123,7 @@
       "roundTripNote": "+${amount} USD for the return trip to the airport.",
       "roundTripNoteShared": "+$10 USD per person for the return trip.",
       "date": "Travel date *",
+      "dateHint": "We currently operate Saturdays and Sundays only.",
       "time": "Airport arrival time *",
       "timePlaceholder": "Select time",
       "timeHourPlaceholder": "Hour",

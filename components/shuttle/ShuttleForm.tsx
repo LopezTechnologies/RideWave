@@ -634,6 +634,7 @@ export default function ShuttleForm() {
                     locale={locale as 'es' | 'en'}
                     error={!!errors.travelDate}
                   />
+                  <p className="text-gray-400 text-xs mt-1.5">{tf('dateHint')}</p>
                   <FieldError msg={errors.travelDate} />
                 </div>
 

@@ -9,6 +9,7 @@ import type { BookingMode, Destination, VehicleType } from '@/types'
 import {
   checkShuttleConflictInSupabase,
   findConflictingBooking,
+  isBookableDateString,
   reserveShuttleBookingAtomic,
   type ShuttleCandidate,
 } from '@/lib/shuttleAvailability'
@@ -36,6 +37,14 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { orderId, meta } = schema.parse(body)
+
+    if (!isBookableDateString(meta.travelDate)) {
+      return NextResponse.json(
+        { error: 'This timeslot is no longer available. Please pick another time.', code: 'TIME_SLOT_UNAVAILABLE' },
+        { status: 409 },
+      )
+    }
+
     const deposit = Math.round(meta.priceUsd * 0.5)
     const candidate: ShuttleCandidate = {
       travelDate: meta.travelDate,
