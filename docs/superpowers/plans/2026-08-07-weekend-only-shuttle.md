@@ -31,11 +31,11 @@ Spec: `docs/superpowers/specs/2026-08-06-weekend-only-shuttle-design.md`
 **Interfaces:**
 - Produces: `DIAS_HABILITADOS: number[]`, `isBookableDay(date: Date): boolean`, `isBookableDateString(travelDate: string): boolean` — all exported from `lib/shuttleAvailability.ts`. Tasks 2, 3, 4 import these.
 
-- [ ] **Step 1: Install Vitest**
+- [x] **Step 1: Install Vitest**
 
 Run: `npm install -D vitest`
 
-- [ ] **Step 2: Add the test script to `package.json`**
+- [x] **Step 2: Add the test script to `package.json`**
 
 In the `"scripts"` block of `package.json`, add:
 
@@ -43,7 +43,7 @@ In the `"scripts"` block of `package.json`, add:
 "test": "vitest run"
 ```
 
-- [ ] **Step 3: Create `vitest.config.ts`**
+- [x] **Step 3: Create `vitest.config.ts`**
 
 ```ts
 import { defineConfig } from 'vitest/config'
@@ -55,7 +55,7 @@ export default defineConfig({
 })
 ```
 
-- [ ] **Step 4: Write the failing test**
+- [x] **Step 4: Write the failing test**
 
 Create `lib/shuttleAvailability.test.ts`:
 
@@ -98,12 +98,12 @@ describe('isBookableDateString (timezone safety)', () => {
 })
 ```
 
-- [ ] **Step 5: Run the test to verify it fails**
+- [x] **Step 5: Run the test to verify it fails**
 
 Run: `npx vitest run lib/shuttleAvailability.test.ts`
 Expected: FAIL — `isBookableDay` and `isBookableDateString` are not exported yet.
 
-- [ ] **Step 6: Implement `isBookableDay` and `isBookableDateString`**
+- [x] **Step 6: Implement `isBookableDay` and `isBookableDateString`**
 
 In `lib/shuttleAvailability.ts`, change the top import line:
 
@@ -134,12 +134,12 @@ export function isBookableDateString(travelDate: string): boolean {
 }
 ```
 
-- [ ] **Step 7: Run the test to verify it passes**
+- [x] **Step 7: Run the test to verify it passes**
 
 Run: `npx vitest run lib/shuttleAvailability.test.ts`
 Expected: PASS — 6 tests green.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add package.json package-lock.json vitest.config.ts lib/shuttleAvailability.ts lib/shuttleAvailability.test.ts
@@ -160,11 +160,11 @@ git commit -m "feat: add isBookableDay/isBookableDateString for weekend-only shu
   `ShuttleDatePicker({ value: string, onChange: (value: string) => void, locale: 'es' | 'en', error?: boolean })`
   — `value`/`onChange` use the same `'YYYY-MM-DD'` string shape `ShuttleForm.tsx` already keeps in `form.travelDate`. Task 3 imports and renders this component.
 
-- [ ] **Step 1: Install `react-day-picker`**
+- [x] **Step 1: Install `react-day-picker`**
 
 Run: `npm install react-day-picker@^10.0.1`
 
-- [ ] **Step 2: Create the component**
+- [x] **Step 2: Create the component**
 
 Create `components/shuttle/ShuttleDatePicker.tsx`:
 
@@ -215,12 +215,12 @@ export default function ShuttleDatePicker({
 }
 ```
 
-- [ ] **Step 3: Verify it type-checks**
+- [x] **Step 3: Verify it type-checks**
 
 Run: `npx tsc --noEmit`
 Expected: no errors. (No automated render test — per the spec's own Testing section, `react-day-picker` is a mature library not worth testing at the render level; Task 3's manual browser check is the verification for actual calendar behavior.)
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add package.json package-lock.json components/shuttle/ShuttleDatePicker.tsx
@@ -237,7 +237,7 @@ git commit -m "feat: add ShuttleDatePicker component with weekday dates disabled
 **Interfaces:**
 - Consumes: `ShuttleDatePicker` from Task 2 (`@/components/shuttle/ShuttleDatePicker`).
 
-- [ ] **Step 1: Import the component**
+- [x] **Step 1: Import the component**
 
 In `components/shuttle/ShuttleForm.tsx`, add near the top imports (after the `types` import):
 
@@ -245,7 +245,7 @@ In `components/shuttle/ShuttleForm.tsx`, add near the top imports (after the `ty
 import ShuttleDatePicker from './ShuttleDatePicker'
 ```
 
-- [ ] **Step 2: Remove the now-unused `todayString` helper**
+- [x] **Step 2: Remove the now-unused `todayString` helper**
 
 Delete this block (it's only used by the native date input being replaced):
 
@@ -255,7 +255,7 @@ function todayString() {
 }
 ```
 
-- [ ] **Step 3: Replace the native date input**
+- [x] **Step 3: Replace the native date input**
 
 Find this block (inside "Section 2: Fecha y pasajeros", the "Travel date" `<div>`):
 
@@ -284,17 +284,17 @@ Replace it with:
                   />
 ```
 
-- [ ] **Step 4: Verify it type-checks and builds**
+- [x] **Step 4: Verify it type-checks and builds**
 
 Run: `npx tsc --noEmit && npm run build`
 Expected: no errors.
 
-- [ ] **Step 5: Manual browser check**
+- [x] **Step 5: Manual browser check**
 
 Run: `npm run dev`, open `http://localhost:3000/es/shuttle`.
 Expected: the date field now renders a calendar (not a native date input). Monday–Friday dates are visibly greyed out and unclickable. Saturdays/Sundays (today or later) are selectable and, once picked, populate the pickup-time dropdown as before.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add components/shuttle/ShuttleForm.tsx
@@ -312,7 +312,7 @@ git commit -m "feat: replace native date input with ShuttleDatePicker in shuttle
 **Interfaces:**
 - Consumes: `isBookableDateString(travelDate: string): boolean` from Task 1 (`@/lib/shuttleAvailability`).
 
-- [ ] **Step 1: Reject weekday bookings in `checkout/route.ts`**
+- [x] **Step 1: Reject weekday bookings in `checkout/route.ts`**
 
 Change the import line:
 
@@ -345,7 +345,7 @@ Then, right after `const data = schema.parse(body)` and before the `calculateShu
 
 This check runs unconditionally (both mock and real mode) — unlike the existing Supabase conflict check a few lines below, which is skipped in mock mode, this one is a pure computation with no external dependency and must always apply.
 
-- [ ] **Step 2: Short-circuit weekday queries in `availability/route.ts`**
+- [x] **Step 2: Short-circuit weekday queries in `availability/route.ts`**
 
 Change the import line:
 
@@ -376,12 +376,12 @@ add:
     }
 ```
 
-- [ ] **Step 3: Verify it type-checks and builds**
+- [x] **Step 3: Verify it type-checks and builds**
 
 Run: `npx tsc --noEmit && npm run build`
 Expected: no errors.
 
-- [ ] **Step 4: Manual verification — checkout rejects a weekday**
+- [x] **Step 4: Manual verification — checkout rejects a weekday**
 
 Start the dev server if not already running: `npm run dev`
 
@@ -399,7 +399,7 @@ curl -s -X POST http://localhost:3000/api/checkout \
 
 Expected: `HTTP: 400` with `"code":"DAY_NOT_BOOKABLE"` — no PayPal order / mock success URL created.
 
-- [ ] **Step 5: Manual verification — checkout still accepts a weekend day**
+- [x] **Step 5: Manual verification — checkout still accepts a weekend day**
 
 ```bash
 curl -s -X POST http://localhost:3000/api/checkout \
@@ -413,7 +413,7 @@ curl -s -X POST http://localhost:3000/api/checkout \
 
 Expected: `HTTP: 200` with a `url` field (mock success URL).
 
-- [ ] **Step 6: Manual verification — availability returns empty for a weekday**
+- [x] **Step 6: Manual verification — availability returns empty for a weekday**
 
 ```bash
 curl -s "http://localhost:3000/api/shuttle/availability?date=2026-08-11&destination=el-tunco&bookingMode=solo&vehicleType=suv&isRoundTrip=false" -w "\nHTTP: %{http_code}\n"
@@ -421,7 +421,7 @@ curl -s "http://localhost:3000/api/shuttle/availability?date=2026-08-11&destinat
 
 Expected: `HTTP: 200` with `{"availableSlots":[]}`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add app/api/checkout/route.ts app/api/shuttle/availability/route.ts
